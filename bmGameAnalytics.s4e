@@ -1,0 +1,244 @@
+errors
+globals
+
+include:
+
+#include <s3eTypes.h>
+
+struct bmGameAnalyticsGlobals
+{
+	bool m_initialized;
+	
+	const char * m_gameKey;
+	const char * m_secretKey;
+	
+	const char * m_build_version;
+	const char * m_engine_version;
+	
+	const char * m_custom_dimensions[3][21]; //! null-terminated arrays of custom dimensions
+	const char * m_resource_currencies[21]; //! null-terminated array
+	const char * m_resource_items_types[21]; //! null-terminated array
+};
+
+enum bmGameAnalyticsResourceFlowType 
+{
+    bmGameAnalyticsResourceFlowTypeSource = 1,
+    bmGameAnalyticsResourceFlowTypeSink = 2
+};
+
+enum bmGameAnalyticsProgressionStatus 
+{
+    bmGameAnalyticsProgressionStatusStart = 1,
+    bmGameAnalyticsProgressionStatusComplete = 2,
+    bmGameAnalyticsProgressionStatusFail = 3
+};
+
+enum bmGameAnalyticsErrorSeverity 
+{
+    bmGameAnalyticsErrorSeverityDebug = 1,
+    bmGameAnalyticsErrorSeverityInfo = 2,
+    bmGameAnalyticsErrorSeverityWarning = 3,
+    bmGameAnalyticsErrorSeverityError = 4,
+    bmGameAnalyticsErrorSeverityCritical = 5
+};
+
+enum bmGameAnalyticsError
+{
+    MYEXTENSION_ERR_NONE = 0,
+    MYEXTENSION_ERR_PARAM = 1,
+    MYEXTENSION_ERR_UNAVAIL = 5,
+    //MYEXTENSION_ERR_SOMETHINGSPECIFIC = 1000,
+};
+
+// struct bmGameAnalyticsInitialiseInfo
+// {
+	// const char * m_gameKey;
+	// const char * m_secretKey;
+	
+	// const char * m_build_version;
+	// const char * m_engine_version;
+	
+	// const char * m_custom_dimensions[3][21]; //! null-terminated arrays of custom dimensions
+	// const char * m_resource_currencies[21]; //! null-terminated array
+	// const char * m_resource_items_types[21]; //! null-terminated array
+// };
+
+functions:
+
+// /**
+ // * Initialise the GameAnalytics wrapper.
+ // */
+// void bmGameAnalyticsInitialise(bmGameAnalyticsInitialiseInfo * initialise_info) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Add new business event
+
+ @param currency
+    Currency code in ISO 4217 format. (e.g. USD)
+ @param amount
+    (Integer) Amount in cents. (e.g. 99)
+ @param itemType
+    Item Type bought. (e.g. Gold Pack)
+ @param itemId
+    Item bought. (e.g. 1000 gold)
+ @param receipt
+    Transaction receipt string. (Optional, can be nullptr)
+	If receipt is null, then in IOS7+ SDK will try to retrieve the receipt automatically when called directly after a successful in-app purchase.
+
+ @availability Available since 1.0.0
+
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
+void bmGameAnalyticsAddBusinessEvent(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType, const char * receipt S3E_DEFAULT(NULL)) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Add new resource event
+
+ @param flowType
+    Add or substract resource.<br> (See. bmGameAnalyticsResourceFlowType)
+ @param currency
+    One of the available currencies set in configureAvailableResourceCurrencies
+ @param amount
+    Amount sourced or sinked
+ @param itemType
+    One of the available currencies set in configureAvailableResourceItemTypes
+ @param itemId
+    Item id (string max length=32)
+
+ @availability Available since 2.0.0
+
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
+void bmGameAnalyticsAddResourceEvent(bmGameAnalyticsResourceFlowType flowType, const char * currency, int amount, const char * itemType, const char * itemId) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Add new progression event
+
+ @param progressionStatus
+    Status of added progression.<br> (See. bmGameAnalyticsProgressionStatus)
+ @param progression01
+    1st progression (e.g. world01)
+ @param progression02
+    2nd progression (e.g. level01)
+ @param progression03
+    3rd progression (e.g. phase01)
+
+ @availability Available since 1.0.0
+
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
+void bmGameAnalyticsAddProgressionEvent(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03, int score) run_on_os_thread
+void bmGameAnalyticsAddProgressionEvent(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Add new design event without a value
+
+ @param eventId
+    String can consist of 1 to 5 segments.<br>
+    Segments are seperated by ':' and segments can have a max length of 32.<br>
+    (e.g. segment1:anotherSegment:gold)
+
+ @availability Available since 2.0.0
+
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
+void bmGameAnalyticsAddDesignEvent(const char * eventId) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Add new design event with a value
+
+ @param eventId
+    String can consist of 1 to 5 segments.<br>
+    segments are seperated by ':' and segments can have a max length of 32.<br>
+    (e.g. segment1:anotherSegment:gold)
+ @param value
+    Number value of event
+
+ @availability Available since 2.0.0
+
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
+void bmGameAnalyticsAddDesignEvent(const char * eventId, int value) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Add new error event
+
+ @param severity
+    Severity of error (See. bmGameAnalyticsErrorSeverity)
+ @param message
+    Error message (Optional, can be nil)
+
+ @availability Available since 2.0.0
+
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
+void bmGameAnalyticsAddErrorEvent(bmGameAnalyticsErrorSeverity severity, const char * message S3E_DEFAULT(NULL)) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Set 1st custom dimension
+
+ @param dimension01
+    One of the available dimension values set in configureAvailableCustomDimensions01<br>
+    Will persist cross session. Set to nil to reset.
+
+ @availability Available since 2.0.0
+
+ @attribute Note! Must be called after setAvailableCustomDimensions01WithCustomDimensions
+ */
+void bmGameAnalyticsSetCustomDimension01(const char * dimension01) run_on_os_thread
+void bmGameAnalyticsSetCustomDimension02(const char * dimension02) run_on_os_thread
+void bmGameAnalyticsSetCustomDimension03(const char * dimension03) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Set user facebook id
+
+ @param facebookId
+    Facebook id of user (Persists cross session)
+
+ @availability Available since 2.0.0
+ */
+void bmGameAnalyticsSetUserFacebookId(const char * facebookId) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Set user gender
+
+ @param gender
+    Gender of user (Persists cross session)<br>
+    Must be one of (male / female)
+
+ @availability Available since 2.0.0
+ */
+void bmGameAnalyticsSetUserGender(bool is_male S3E_DEFAULT(true)) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Set user birth year
+
+ @param birthYear
+    Birth year of user (Persists cross session)
+
+ @availability Available since 2.0.0
+ */
+void bmGameAnalyticsSetUserBirthYear(int year) run_on_os_thread
+
+append:
+
