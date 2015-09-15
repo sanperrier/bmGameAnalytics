@@ -37,8 +37,11 @@ if {{defined I3D_OS_IPHONE}}
         ["GA SDK"]
         ("GA_SDK/iphone")
         "*.h"
-        #("incoming/iphone/Binary_Distribution/libGameAnalytics/arm7")
-        #"*.o"
+    }
+	
+	options
+    {
+        cflags="-F$CWD/GA_SDK/iphone"
     }
 }
 
