@@ -22,7 +22,13 @@ s3eResult bmGameAnalyticsInit_platform(const char * game_key,
 									   const char ** resource_currencies, unsigned int resource_currencies_size,
 									   const char ** resource_item_types, unsigned int resource_item_types_size)
 {
-    //TODO: Тут настраиваем валюты, типы предметов, устанавливаем версии и инициализируем ключами, проверок никаких не надо, они в generic части
+#ifdef IW_DEBUG
+    [GameAnalytics setEnabledInfoLog:YES];
+    [GameAnalytics setEnabledVerboseLog:YES];
+#else
+    [GameAnalytics setEnabledInfoLog:NO];
+    [GameAnalytics setEnabledVerboseLog:NO];
+#endif
     
     if (build_version)
         [GameAnalytics configureBuild:[NSString stringWithUTF8String:build_version]];
@@ -81,17 +87,9 @@ s3eResult bmGameAnalyticsInit_platform(const char * game_key,
             [types addObject:[NSString stringWithUTF8String:resource_item_types[i]]];
         }
         NSArray *array = [types copy];
-        [GameAnalytics configureAvailableResourceCurrencies:array];
+        [GameAnalytics configureAvailableResourceItemTypes:array];
         [types release];
     }
-    
-#ifdef IW_DEBUG
-    [GameAnalytics setEnabledInfoLog:YES];
-    [GameAnalytics setEnabledVerboseLog:YES];
-#else
-    [GameAnalytics setEnabledInfoLog:NO];
-    [GameAnalytics setEnabledVerboseLog:NO];
-#endif
     
     NSString* gamek = [NSString stringWithUTF8String:game_key];
     NSString* secretk = [NSString stringWithUTF8String:secret_key];
@@ -111,13 +109,26 @@ void bmGameAnalyticsAddBusinessEvent_platform(const char * currency, int amount,
     NSString* type = [NSString stringWithUTF8String:itemType];
     NSString* item = [NSString stringWithUTF8String:itemId];
     NSString* cart = [NSString stringWithUTF8String:cartType];
-    NSString* rec = [NSString stringWithUTF8String:receipt];
-    [GameAnalytics addBusinessEventWithCurrency:curr
-                                         amount:amount
-                                       itemType:type
-                                         itemId:item
-                                       cartType:cart
-                                        receipt:rec];
+    
+    if (receipt)
+    {
+        NSString* rec = [NSString stringWithUTF8String:receipt];
+        [GameAnalytics addBusinessEventWithCurrency:curr
+                                             amount:amount
+                                           itemType:type
+                                             itemId:item
+                                           cartType:cart
+                                            receipt:rec];
+    }
+    else
+    {
+        [GameAnalytics addBusinessEventWithCurrency:curr
+                                             amount:amount
+                                           itemType:type
+                                             itemId:item
+                                           cartType:cart
+                                   autoFetchReceipt:true];
+    }
 }
 
 void bmGameAnalyticsAddResourceEvent_platform(bmGameAnalyticsResourceFlowType flowType, const char * currency, int amount, const char * itemType, const char * itemId)
@@ -127,8 +138,9 @@ void bmGameAnalyticsAddResourceEvent_platform(bmGameAnalyticsResourceFlowType fl
     NSString* item = [NSString stringWithUTF8String:itemId];
     [GameAnalytics addResourceEventWithFlowType:GAResourceFlowTypeSource
                                        currency:curr
-                                         amount:[NSNumber numberWithFloat:amount]
-                                       itemType:type itemId:item];
+                                         amount:[NSNumber numberWithInteger:amount]
+                                       itemType:type
+                                         itemId:item];
 }
 
 void bmGameAnalyticsAddProgressionEventWithScore_platform(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03, int score)
@@ -173,21 +185,29 @@ void bmGameAnalyticsAddDesignEventWithValue_platform(const char * eventId, float
 
 void bmGameAnalyticsAddErrorEvent_platform(bmGameAnalyticsErrorSeverity severity, const char * message)
 {
-    NSString* msg = [NSString stringWithUTF8String:message];
-    [GameAnalytics addErrorEventWithSeverity:(GAErrorSeverity)severity
-                                     message:msg];
+    if (message)
+    {
+        NSString* msg = [NSString stringWithUTF8String:message];
+        [GameAnalytics addErrorEventWithSeverity:(GAErrorSeverity)severity
+                                         message:msg];
+    }
+    else
+    {
+        [GameAnalytics addErrorEventWithSeverity:(GAErrorSeverity)severity
+                                         message:nil];
+    }
 }
 
 void bmGameAnalyticsSetCustomDimension01_platform(const char * dimension01)
 {
     NSString* dim01 = [NSString stringWithUTF8String:dimension01];
-    [GameAnalytics setCustomDimension03:dim01];
+    [GameAnalytics setCustomDimension01:dim01];
 }
 
 void bmGameAnalyticsSetCustomDimension02_platform(const char * dimension02)
 {
     NSString* dim02 = [NSString stringWithUTF8String:dimension02];
-    [GameAnalytics setCustomDimension03:dim02];
+    [GameAnalytics setCustomDimension02:dim02];
 }
 
 void bmGameAnalyticsSetCustomDimension03_platform(const char * dimension03)

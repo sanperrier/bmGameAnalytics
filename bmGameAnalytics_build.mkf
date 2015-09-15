@@ -35,12 +35,13 @@ if {{defined I3D_OS_IPHONE}}
         ["source"]
         (use_first_found, source/iphone, source/generic)
         bmGameAnalytics_platform.mm
-        ["GA SDK"]
-        ("GA_SDK/iphone")
-        "*.h"
+
+        ["GA_SDK"]
+        (GA_SDK/iphone)
+        GameAnalytics.h
     }
 	
-	options
+    options
     {
         cflags="-F$CWD/GA_SDK/iphone"
     }
