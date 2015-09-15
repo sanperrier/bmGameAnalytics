@@ -1,0 +1,13 @@
+#!/usr/bin/env mkb
+# Builder mkb file for the bmGameAnalytics extension on iphone
+platform IPHONE
+
+options
+{
+    lib
+    output-name="lib/iphone/libbmGameAnalytics.a"
+    output-name-debug="lib/iphone/libbmGameAnalytics_d.a"
+}
+define S3E_BUILD_EXT
+
+subproject bmGameAnalytics_build

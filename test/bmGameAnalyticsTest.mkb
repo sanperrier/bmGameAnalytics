@@ -1,0 +1,15 @@
+#!/usr/bin/env mkb
+files
+{
+    bmGameAnalyticsTest.cpp
+}
+
+options 
+{
+	module_path="../"
+}
+
+subproject 
+{
+	bmGameAnalytics
+}

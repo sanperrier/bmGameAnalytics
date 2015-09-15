@@ -1,0 +1,9 @@
+[bmGameAnalytics]
+GameKey                     <string>    GA GameKey
+SecretKey                   <string>    GA SecretKey
+BuildVersion                <string>    Build version for game. Default is version from deployment
+EngineVersion               <string>    Engine version. Default is Marmalade version
+CustomDimensions01          <string>    Custom dimensions 01, comma-separated. Max 256 bytes. If you need more use CustomDimensions01_part2
+CustomDimensions01_part2    <string>    Custom dimensions 01 part2, if you need more use CustomDimensions01_part3
+CustomDimensions01_part3    <string>    Custom dimensions 01 part3
+
