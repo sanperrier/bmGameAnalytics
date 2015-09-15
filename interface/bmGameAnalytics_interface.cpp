@@ -25,6 +25,7 @@
  */
 typedef const char*(*bmGameAnalyticsGetErrorString_t)();
 typedef bmGameAnalyticsError(*bmGameAnalyticsGetError_t)();
+typedef       void(*bmGameAnalyticsAddBusinessEventWithoutReceipt_t)(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType);
 typedef       void(*bmGameAnalyticsAddBusinessEvent_t)(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType, const char * receipt);
 typedef       void(*bmGameAnalyticsAddResourceEvent_t)(bmGameAnalyticsResourceFlowType flowType, const char * currency, int amount, const char * itemType, const char * itemId);
 typedef       void(*bmGameAnalyticsAddProgressionEventWithScore_t)(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03, int score);
@@ -46,6 +47,7 @@ typedef struct bmGameAnalyticsFuncs
 {
     bmGameAnalyticsGetErrorString_t m_bmGameAnalyticsGetErrorString;
     bmGameAnalyticsGetError_t m_bmGameAnalyticsGetError;
+    bmGameAnalyticsAddBusinessEventWithoutReceipt_t m_bmGameAnalyticsAddBusinessEventWithoutReceipt;
     bmGameAnalyticsAddBusinessEvent_t m_bmGameAnalyticsAddBusinessEvent;
     bmGameAnalyticsAddResourceEvent_t m_bmGameAnalyticsAddResourceEvent;
     bmGameAnalyticsAddProgressionEventWithScore_t m_bmGameAnalyticsAddProgressionEventWithScore;
@@ -144,9 +146,29 @@ bmGameAnalyticsError bmGameAnalyticsGetError()
     return ret;
 }
 
+void bmGameAnalyticsAddBusinessEventWithoutReceipt(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType)
+{
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[2] func: bmGameAnalyticsAddBusinessEventWithoutReceipt"));
+
+    if (!_extLoad())
+        return;
+
+#ifdef LOADER_CALL_LOCK
+    s3eDeviceLoaderCallStart(S3E_TRUE, (void*)g_Ext.m_bmGameAnalyticsAddBusinessEventWithoutReceipt);
+#endif
+
+    g_Ext.m_bmGameAnalyticsAddBusinessEventWithoutReceipt(currency, amount, itemType, itemId, cartType);
+
+#ifdef LOADER_CALL_LOCK
+    s3eDeviceLoaderCallDone(S3E_TRUE, (void*)g_Ext.m_bmGameAnalyticsAddBusinessEventWithoutReceipt);
+#endif
+
+    return;
+}
+
 void bmGameAnalyticsAddBusinessEvent(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType, const char * receipt)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[2] func: bmGameAnalyticsAddBusinessEvent"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[3] func: bmGameAnalyticsAddBusinessEvent"));
 
     if (!_extLoad())
         return;
@@ -166,7 +188,7 @@ void bmGameAnalyticsAddBusinessEvent(const char * currency, int amount, const ch
 
 void bmGameAnalyticsAddResourceEvent(bmGameAnalyticsResourceFlowType flowType, const char * currency, int amount, const char * itemType, const char * itemId)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[3] func: bmGameAnalyticsAddResourceEvent"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[4] func: bmGameAnalyticsAddResourceEvent"));
 
     if (!_extLoad())
         return;
@@ -186,7 +208,7 @@ void bmGameAnalyticsAddResourceEvent(bmGameAnalyticsResourceFlowType flowType, c
 
 void bmGameAnalyticsAddProgressionEventWithScore(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03, int score)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[4] func: bmGameAnalyticsAddProgressionEventWithScore"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[5] func: bmGameAnalyticsAddProgressionEventWithScore"));
 
     if (!_extLoad())
         return;
@@ -206,7 +228,7 @@ void bmGameAnalyticsAddProgressionEventWithScore(bmGameAnalyticsProgressionStatu
 
 void bmGameAnalyticsAddProgressionEvent(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[5] func: bmGameAnalyticsAddProgressionEvent"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[6] func: bmGameAnalyticsAddProgressionEvent"));
 
     if (!_extLoad())
         return;
@@ -226,7 +248,7 @@ void bmGameAnalyticsAddProgressionEvent(bmGameAnalyticsProgressionStatus progres
 
 void bmGameAnalyticsAddDesignEvent(const char * eventId)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[6] func: bmGameAnalyticsAddDesignEvent"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[7] func: bmGameAnalyticsAddDesignEvent"));
 
     if (!_extLoad())
         return;
@@ -246,7 +268,7 @@ void bmGameAnalyticsAddDesignEvent(const char * eventId)
 
 void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, float value)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[7] func: bmGameAnalyticsAddDesignEventWithValue"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[8] func: bmGameAnalyticsAddDesignEventWithValue"));
 
     if (!_extLoad())
         return;
@@ -266,7 +288,7 @@ void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, float value)
 
 void bmGameAnalyticsAddErrorEvent(bmGameAnalyticsErrorSeverity severity, const char * message)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[8] func: bmGameAnalyticsAddErrorEvent"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[9] func: bmGameAnalyticsAddErrorEvent"));
 
     if (!_extLoad())
         return;
@@ -286,7 +308,7 @@ void bmGameAnalyticsAddErrorEvent(bmGameAnalyticsErrorSeverity severity, const c
 
 void bmGameAnalyticsSetCustomDimension01(const char * dimension01)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[9] func: bmGameAnalyticsSetCustomDimension01"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[10] func: bmGameAnalyticsSetCustomDimension01"));
 
     if (!_extLoad())
         return;
@@ -306,7 +328,7 @@ void bmGameAnalyticsSetCustomDimension01(const char * dimension01)
 
 void bmGameAnalyticsSetCustomDimension02(const char * dimension02)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[10] func: bmGameAnalyticsSetCustomDimension02"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[11] func: bmGameAnalyticsSetCustomDimension02"));
 
     if (!_extLoad())
         return;
@@ -326,7 +348,7 @@ void bmGameAnalyticsSetCustomDimension02(const char * dimension02)
 
 void bmGameAnalyticsSetCustomDimension03(const char * dimension03)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[11] func: bmGameAnalyticsSetCustomDimension03"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[12] func: bmGameAnalyticsSetCustomDimension03"));
 
     if (!_extLoad())
         return;
@@ -346,7 +368,7 @@ void bmGameAnalyticsSetCustomDimension03(const char * dimension03)
 
 void bmGameAnalyticsSetUserFacebookId(const char * facebookId)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[12] func: bmGameAnalyticsSetUserFacebookId"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[13] func: bmGameAnalyticsSetUserFacebookId"));
 
     if (!_extLoad())
         return;
@@ -366,7 +388,7 @@ void bmGameAnalyticsSetUserFacebookId(const char * facebookId)
 
 void bmGameAnalyticsSetUserGender(bool is_male)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[13] func: bmGameAnalyticsSetUserGender"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[14] func: bmGameAnalyticsSetUserGender"));
 
     if (!_extLoad())
         return;
@@ -386,7 +408,7 @@ void bmGameAnalyticsSetUserGender(bool is_male)
 
 void bmGameAnalyticsSetUserBirthYear(int year)
 {
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[14] func: bmGameAnalyticsSetUserBirthYear"));
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[15] func: bmGameAnalyticsSetUserBirthYear"));
 
     if (!_extLoad())
         return;

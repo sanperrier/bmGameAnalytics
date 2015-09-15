@@ -131,6 +131,21 @@ void bmGameAnalyticsAddBusinessEvent_platform(const char * currency, int amount,
     }
 }
 
+void bmGameAnalyticsAddBusinessEventWithoutReceipt_platform(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType)
+{
+    NSString* curr = [NSString stringWithUTF8String:currency];
+    NSString* type = [NSString stringWithUTF8String:itemType];
+    NSString* item = [NSString stringWithUTF8String:itemId];
+    NSString* cart = [NSString stringWithUTF8String:cartType];
+    
+    [GameAnalytics addBusinessEventWithCurrency:curr
+                                         amount:amount
+                                       itemType:type
+                                         itemId:item
+                                       cartType:cart
+                               autoFetchReceipt:false];
+}
+
 void bmGameAnalyticsAddResourceEvent_platform(bmGameAnalyticsResourceFlowType flowType, const char * currency, int amount, const char * itemType, const char * itemId)
 {
     NSString* curr = [NSString stringWithUTF8String:currency];

@@ -11,7 +11,7 @@ int main()
         bmGameAnalyticsSetUserBirthYear(1999);
         
         bmGameAnalyticsSetCustomDimension01("dim11");
-        bmGameAnalyticsAddBusinessEvent("bite", 10, "skin", "1", "shop");
+        bmGameAnalyticsAddBusinessEventWithoutReceipt("USD", 10, "skin", "1", "shop");
         
         bmGameAnalyticsSetCustomDimension02("dim21");
         bmGameAnalyticsAddDesignEventWithValue("level_complete", 1);

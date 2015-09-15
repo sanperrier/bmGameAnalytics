@@ -57,6 +57,29 @@ functions:
 
  @attribute Note! This method cannot be called before initialize method has been triggered
  */
+void bmGameAnalyticsAddBusinessEventWithoutReceipt(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType) run_on_os_thread
+
+/*!
+ @method
+
+ @abstract Add new business event
+
+ @param currency
+    Currency code in ISO 4217 format. (e.g. USD)
+ @param amount
+    (Integer) Amount in cents. (e.g. 99)
+ @param itemType
+    Item Type bought. (e.g. Gold Pack)
+ @param itemId
+    Item bought. (e.g. 1000 gold)
+ @param receipt
+    Transaction receipt string. (Optional, can be nullptr)
+	If receipt is null, then in IOS7+ SDK will try to retrieve the receipt automatically when called directly after a successful in-app purchase.
+
+ @availability Available since 1.0.0
+
+ @attribute Note! This method cannot be called before initialize method has been triggered
+ */
 void bmGameAnalyticsAddBusinessEvent(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType, const char * receipt S3E_DEFAULT(NULL)) run_on_os_thread
 
 /*!

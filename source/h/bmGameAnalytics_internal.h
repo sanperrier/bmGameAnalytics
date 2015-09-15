@@ -52,6 +52,7 @@ void bmGameAnalyticsTerminate();
  * Platform-specific termination, implemented on each platform
  */
 void bmGameAnalyticsTerminate_platform();
+void bmGameAnalyticsAddBusinessEventWithoutReceipt_platform(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType);
 void bmGameAnalyticsAddBusinessEvent_platform(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType, const char * receipt);
 
 void bmGameAnalyticsAddResourceEvent_platform(bmGameAnalyticsResourceFlowType flowType, const char * currency, int amount, const char * itemType, const char * itemId);

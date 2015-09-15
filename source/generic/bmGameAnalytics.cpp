@@ -317,9 +317,14 @@ void bmGameAnalyticsTerminate()
     bmGameAnalyticsTerminate_platform();
 }
 
+void bmGameAnalyticsAddBusinessEventWithoutReceipt(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType)
+{
+	bmGameAnalyticsAddBusinessEventWithoutReceipt_platform(currency, amount, itemType, itemId, cartType);
+}
+
 void bmGameAnalyticsAddBusinessEvent(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType, const char * receipt)
 {
-	bmGameAnalyticsAddBusinessEvent_platform(currency, amount, itemType, itemId, cartType, receipt);
+    bmGameAnalyticsAddBusinessEvent_platform(currency, amount, itemType, itemId, cartType, receipt);
 }
 
 void bmGameAnalyticsAddResourceEvent(bmGameAnalyticsResourceFlowType flowType, const char * currency, int amount, const char * itemType, const char * itemId)

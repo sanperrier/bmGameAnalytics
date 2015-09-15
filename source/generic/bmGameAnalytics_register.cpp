@@ -38,6 +38,12 @@ bmGameAnalyticsError bmGameAnalyticsGetError()
 // code is oftern build standalone, outside the main loader build.
 #if defined I3D_OS_IPHONE || defined I3D_OS_OSX || defined I3D_OS_LINUX || defined I3D_OS_WINDOWS
 
+static void bmGameAnalyticsAddBusinessEventWithoutReceipt_wrap(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType)
+{
+    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics func on main thread: bmGameAnalyticsAddBusinessEventWithoutReceipt"));
+    s3eEdkThreadRunOnOS((s3eEdkThreadFunc)bmGameAnalyticsAddBusinessEventWithoutReceipt, 5, currency, amount, itemType, itemId, cartType);
+}
+
 static void bmGameAnalyticsAddBusinessEvent_wrap(const char * currency, int amount, const char * itemType, const char * itemId, const char * cartType, const char * receipt)
 {
     IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics func on main thread: bmGameAnalyticsAddBusinessEvent"));
@@ -110,6 +116,7 @@ static void bmGameAnalyticsSetUserBirthYear_wrap(int year)
     s3eEdkThreadRunOnOS((s3eEdkThreadFunc)bmGameAnalyticsSetUserBirthYear, 1, year);
 }
 
+#define bmGameAnalyticsAddBusinessEventWithoutReceipt bmGameAnalyticsAddBusinessEventWithoutReceipt_wrap
 #define bmGameAnalyticsAddBusinessEvent bmGameAnalyticsAddBusinessEvent_wrap
 #define bmGameAnalyticsAddResourceEvent bmGameAnalyticsAddResourceEvent_wrap
 #define bmGameAnalyticsAddProgressionEventWithScore bmGameAnalyticsAddProgressionEventWithScore_wrap
@@ -128,27 +135,28 @@ static void bmGameAnalyticsSetUserBirthYear_wrap(int year)
 void bmGameAnalyticsRegisterExt()
 {
     /* fill in the function pointer struct for this extension */
-    void* funcPtrs[15];
+    void* funcPtrs[16];
     funcPtrs[0] = (void*)bmGameAnalyticsGetErrorString;
     funcPtrs[1] = (void*)bmGameAnalyticsGetError;
-    funcPtrs[2] = (void*)bmGameAnalyticsAddBusinessEvent;
-    funcPtrs[3] = (void*)bmGameAnalyticsAddResourceEvent;
-    funcPtrs[4] = (void*)bmGameAnalyticsAddProgressionEventWithScore;
-    funcPtrs[5] = (void*)bmGameAnalyticsAddProgressionEvent;
-    funcPtrs[6] = (void*)bmGameAnalyticsAddDesignEvent;
-    funcPtrs[7] = (void*)bmGameAnalyticsAddDesignEventWithValue;
-    funcPtrs[8] = (void*)bmGameAnalyticsAddErrorEvent;
-    funcPtrs[9] = (void*)bmGameAnalyticsSetCustomDimension01;
-    funcPtrs[10] = (void*)bmGameAnalyticsSetCustomDimension02;
-    funcPtrs[11] = (void*)bmGameAnalyticsSetCustomDimension03;
-    funcPtrs[12] = (void*)bmGameAnalyticsSetUserFacebookId;
-    funcPtrs[13] = (void*)bmGameAnalyticsSetUserGender;
-    funcPtrs[14] = (void*)bmGameAnalyticsSetUserBirthYear;
+    funcPtrs[2] = (void*)bmGameAnalyticsAddBusinessEventWithoutReceipt;
+    funcPtrs[3] = (void*)bmGameAnalyticsAddBusinessEvent;
+    funcPtrs[4] = (void*)bmGameAnalyticsAddResourceEvent;
+    funcPtrs[5] = (void*)bmGameAnalyticsAddProgressionEventWithScore;
+    funcPtrs[6] = (void*)bmGameAnalyticsAddProgressionEvent;
+    funcPtrs[7] = (void*)bmGameAnalyticsAddDesignEvent;
+    funcPtrs[8] = (void*)bmGameAnalyticsAddDesignEventWithValue;
+    funcPtrs[9] = (void*)bmGameAnalyticsAddErrorEvent;
+    funcPtrs[10] = (void*)bmGameAnalyticsSetCustomDimension01;
+    funcPtrs[11] = (void*)bmGameAnalyticsSetCustomDimension02;
+    funcPtrs[12] = (void*)bmGameAnalyticsSetCustomDimension03;
+    funcPtrs[13] = (void*)bmGameAnalyticsSetUserFacebookId;
+    funcPtrs[14] = (void*)bmGameAnalyticsSetUserGender;
+    funcPtrs[15] = (void*)bmGameAnalyticsSetUserBirthYear;
 
     /*
      * Flags that specify the extension's use of locking and stackswitching
      */
-    int flags[15] = { 0 };
+    int flags[16] = { 0 };
 
     /*
      * Register the extension
