@@ -134,7 +134,7 @@ void bmGameAnalyticsAddDesignEvent(const char * eventId) run_on_os_thread
 
  @attribute Note! This method cannot be called before initialize method has been triggered
  */
-void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, int value) run_on_os_thread
+void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, float value)
 
 /*!
  @method

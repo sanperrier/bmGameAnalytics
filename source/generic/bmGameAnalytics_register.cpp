@@ -68,12 +68,6 @@ static void bmGameAnalyticsAddDesignEvent_wrap(const char * eventId)
     s3eEdkThreadRunOnOS((s3eEdkThreadFunc)bmGameAnalyticsAddDesignEvent, 1, eventId);
 }
 
-static void bmGameAnalyticsAddDesignEventWithValue_wrap(const char * eventId, int value)
-{
-    IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics func on main thread: bmGameAnalyticsAddDesignEventWithValue"));
-    s3eEdkThreadRunOnOS((s3eEdkThreadFunc)bmGameAnalyticsAddDesignEventWithValue, 2, eventId, value);
-}
-
 static void bmGameAnalyticsAddErrorEvent_wrap(bmGameAnalyticsErrorSeverity severity, const char * message)
 {
     IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics func on main thread: bmGameAnalyticsAddErrorEvent"));
@@ -121,7 +115,6 @@ static void bmGameAnalyticsSetUserBirthYear_wrap(int year)
 #define bmGameAnalyticsAddProgressionEventWithScore bmGameAnalyticsAddProgressionEventWithScore_wrap
 #define bmGameAnalyticsAddProgressionEvent bmGameAnalyticsAddProgressionEvent_wrap
 #define bmGameAnalyticsAddDesignEvent bmGameAnalyticsAddDesignEvent_wrap
-#define bmGameAnalyticsAddDesignEventWithValue bmGameAnalyticsAddDesignEventWithValue_wrap
 #define bmGameAnalyticsAddErrorEvent bmGameAnalyticsAddErrorEvent_wrap
 #define bmGameAnalyticsSetCustomDimension01 bmGameAnalyticsSetCustomDimension01_wrap
 #define bmGameAnalyticsSetCustomDimension02 bmGameAnalyticsSetCustomDimension02_wrap

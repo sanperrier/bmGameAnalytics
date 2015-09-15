@@ -182,7 +182,7 @@ void bmGameAnalyticsAddDesignEvent(const char * eventId);
 
  @attribute Note! This method cannot be called before initialize method has been triggered
  */
-void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, int value);
+void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, float value);
 
 /*!
  @method

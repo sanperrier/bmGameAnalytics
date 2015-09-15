@@ -134,9 +134,11 @@ void bmGameAnalyticsAddDesignEvent(const char * eventId)
 	bmGameAnalyticsAddDesignEvent_platform(eventId);
 }
 
-void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, int value)
+void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, float value)
 {
-	bmGameAnalyticsAddDesignEventWithValue_platform(eventId, value);
+	float* _value = new float(value);
+	IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics func on main thread: bmGameAnalyticsAddDesignEvent"));
+	s3eEdkThreadRunOnOS((s3eEdkThreadFunc)bmGameAnalyticsAddDesignEventWithValue_platform, 2, eventId, _value);
 }
 
 void bmGameAnalyticsAddErrorEvent(bmGameAnalyticsErrorSeverity severity, const char * message)

@@ -62,7 +62,7 @@ void bmGameAnalyticsAddProgressionEvent_platform(bmGameAnalyticsProgressionStatu
 
 void bmGameAnalyticsAddDesignEvent_platform(const char * eventId);
 
-void bmGameAnalyticsAddDesignEventWithValue_platform(const char * eventId, int value);
+void bmGameAnalyticsAddDesignEventWithValue_platform(const char * eventId, float * value);
 
 void bmGameAnalyticsAddErrorEvent_platform(bmGameAnalyticsErrorSeverity severity, const char * message);
 

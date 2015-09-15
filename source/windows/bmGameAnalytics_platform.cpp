@@ -46,7 +46,7 @@ void bmGameAnalyticsAddDesignEvent_platform(const char * eventId)
 {
 }
 
-void bmGameAnalyticsAddDesignEventWithValue_platform(const char * eventId, int value)
+void bmGameAnalyticsAddDesignEventWithValue_platform(const char * eventId, float * value)
 {
 }
 

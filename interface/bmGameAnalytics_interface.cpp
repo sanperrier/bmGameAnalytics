@@ -30,7 +30,7 @@ typedef       void(*bmGameAnalyticsAddResourceEvent_t)(bmGameAnalyticsResourceFl
 typedef       void(*bmGameAnalyticsAddProgressionEventWithScore_t)(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03, int score);
 typedef       void(*bmGameAnalyticsAddProgressionEvent_t)(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03);
 typedef       void(*bmGameAnalyticsAddDesignEvent_t)(const char * eventId);
-typedef       void(*bmGameAnalyticsAddDesignEventWithValue_t)(const char * eventId, int value);
+typedef       void(*bmGameAnalyticsAddDesignEventWithValue_t)(const char * eventId, float value);
 typedef       void(*bmGameAnalyticsAddErrorEvent_t)(bmGameAnalyticsErrorSeverity severity, const char * message);
 typedef       void(*bmGameAnalyticsSetCustomDimension01_t)(const char * dimension01);
 typedef       void(*bmGameAnalyticsSetCustomDimension02_t)(const char * dimension02);
@@ -244,7 +244,7 @@ void bmGameAnalyticsAddDesignEvent(const char * eventId)
     return;
 }
 
-void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, int value)
+void bmGameAnalyticsAddDesignEventWithValue(const char * eventId, float value)
 {
     IwTrace(BMGAMEANALYTICS_VERBOSE, ("calling bmGameAnalytics[7] func: bmGameAnalyticsAddDesignEventWithValue"));
 
