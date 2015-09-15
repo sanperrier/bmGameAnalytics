@@ -7,6 +7,7 @@ options
     lib
     output-name="lib/iphone/libbmGameAnalytics.a"
     output-name-debug="lib/iphone/libbmGameAnalytics_d.a"
+    cxxflags="-std=c++11"
 }
 define S3E_BUILD_EXT
 

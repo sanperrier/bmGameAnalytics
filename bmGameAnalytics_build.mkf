@@ -5,6 +5,7 @@ display_name "Extensions/bmGameAnalytics"
 
 includepath source/h
 includepath h
+includepath GA_SDK/iphone
 
 defines
 {
@@ -158,6 +159,7 @@ files
     # Add any platform-independent files here
     # Note that if the file exists in the platform-specific directory
     # it will be taken from there instead of 'generic'
+    (source/generic)
     bmGameAnalytics_register.cpp
     bmGameAnalytics.cpp
 

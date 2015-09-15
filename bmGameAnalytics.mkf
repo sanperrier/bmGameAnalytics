@@ -50,4 +50,5 @@ deployments
     #iphone-link-opts="-framework X" #Use this to bring in any additional link options needed
     iphone-link-lib="bmGameAnalytics"
     iphone-link-libdir="lib/iphone"
+    iphone-link-libdir="GA_SDK/iphone"
 }
