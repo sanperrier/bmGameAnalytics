@@ -11,12 +11,13 @@ This file should perform any platform-indepedentent functionality
  
 #include <vector>
 #include <algorithm>
+#include <sstream>
+
 #include "IwDebug.h"
 #include "s3eConfig.h"
 #include "MarmaladeVersion.h"
 
 #include "bmGameAnalytics_internal.h"
-
 
 using namespace std;
 
@@ -31,10 +32,29 @@ namespace
 	vector<const char*> s_dimensions03;
 	vector<const char*> s_resource_currencies;
 	vector<const char*> s_resource_item_types;
+
+	void clean()
+	{
+		for (const char* item : s_dimensions01)
+			delete item;
+
+		for (const char* item : s_dimensions02)
+			delete item;
+
+		for (const char* item : s_dimensions03)
+			delete item;
+
+		for (const char* item : s_resource_currencies)
+			delete item;
+
+		for (const char* item : s_resource_item_types)
+			delete item;
+	}
 };
 
 s3eResult bmGameAnalyticsInit()
 {
+	//TODO: разобраться, почему не работает вывод ошибок
 	char* s_game_key = new char[0xff];
 	char* s_secret_key = new char[0xff];
 	char* s_build_version = new char[0xff];
@@ -65,19 +85,218 @@ s3eResult bmGameAnalyticsInit()
 		s_engine_version = MARMALADE_VERSION_STRING_FULL;
 	}
 
-	string dimensions;
-	char buffer[0xff] = { NULL };
+	char buffer[0xff] = { '\0' };
 	if (s3eConfigGetString("bmGameAnalytics", "CustomDimensions01", buffer) == S3E_RESULT_SUCCESS)
 	{
-		char buffer1[0xff] = { NULL };
-		char buffer2[0xff] = { NULL };
+		char buffer1[0xff] = { '\0' };
+		char buffer2[0xff] = { '\0' };
 		s3eConfigGetString("bmGameAnalytics", "CustomDimensions01_part2", buffer1);
 		s3eConfigGetString("bmGameAnalytics", "CustomDimensions01_part3", buffer2);
 		
-		dimensions = string(buffer) + string(buffer1) + string(buffer2);
+		string dimensions = string(buffer) + ',' + string(buffer1) + ',' + string(buffer2);
+
+		stringstream ss(dimensions);
+		string item;
+		while (getline(ss, item, ','))
+		{
+			if (!item.empty())
+			{
+				if (s_dimensions01.size() >= 20)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("Too many items for CustomDimensions01"));
+					return S3E_RESULT_ERROR;
+				}
+
+				if (item.size() > 32)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("One of item of CustomDimensions01 is too long (max length 32 chars): %s", item.c_str()));
+					return S3E_RESULT_ERROR;
+				}
+
+				char* dimension = new char[item.size() + 1];
+				std::copy(item.begin(), item.end(), dimension);
+				dimension[item.size()] = '\0';
+				s_dimensions01.push_back(dimension);
+			}
+		}
+	}
+
+	fill_n(buffer, 0xff, '\0');
+	if (s3eConfigGetString("bmGameAnalytics", "CustomDimensions02", buffer) == S3E_RESULT_SUCCESS)
+	{
+		char buffer1[0xff] = { '\0' };
+		char buffer2[0xff] = { '\0' };
+		s3eConfigGetString("bmGameAnalytics", "CustomDimensions02_part2", buffer1);
+		s3eConfigGetString("bmGameAnalytics", "CustomDimensions02_part3", buffer2);
+
+		string dimensions = string(buffer) + ',' + string(buffer1) + ',' + string(buffer2);
+
+		stringstream ss(dimensions);
+		string item;
+		while (getline(ss, item, ','))
+		{
+			if (!item.empty())
+			{
+				if (s_dimensions02.size() >= 20)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("Too many items for CustomDimensions02"));
+					return S3E_RESULT_ERROR;
+				}
+
+				if (item.size() > 32)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("One of item of CustomDimensions02 is too long (max length 32 chars): %s", item.c_str()));
+					return S3E_RESULT_ERROR;
+				}
+
+				char* dimension = new char[item.size() + 1];
+				std::copy(item.begin(), item.end(), dimension);
+				dimension[item.size()] = '\0';
+				s_dimensions02.push_back(dimension);
+			}
+		}
 	}
 	
+	fill_n(buffer, 0xff, '\0');
+	if (s3eConfigGetString("bmGameAnalytics", "CustomDimensions03", buffer) == S3E_RESULT_SUCCESS)
+	{
+		char buffer1[0xff] = { '\0' };
+		char buffer2[0xff] = { '\0' };
+		s3eConfigGetString("bmGameAnalytics", "CustomDimensions03_part2", buffer1);
+		s3eConfigGetString("bmGameAnalytics", "CustomDimensions03_part3", buffer2);
+
+		string dimensions = string(buffer) + ',' + string(buffer1) + ',' + string(buffer2);
+
+		stringstream ss(dimensions);
+		string item;
+		while (getline(ss, item, ','))
+		{
+			if (!item.empty())
+			{
+				if (s_dimensions03.size() >= 20)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("Too many items for CustomDimensions03"));
+					return S3E_RESULT_ERROR;
+				}
+
+				if (item.size() > 32)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("One of item of CustomDimensions03 is too long (max length 32 chars): %s", item.c_str()));
+					return S3E_RESULT_ERROR;
+				}
+
+				char* dimension = new char[item.size() + 1];
+				std::copy(item.begin(), item.end(), dimension);
+				dimension[item.size()] = '\0';
+				s_dimensions03.push_back(dimension);
+			}
+		}
+	}
+
+
+	fill_n(buffer, 0xff, '\0');
+	if (s3eConfigGetString("bmGameAnalytics", "ResourceCurrencies", buffer) == S3E_RESULT_SUCCESS)
+	{
+		char buffer1[0xff] = { '\0' };
+		char buffer2[0xff] = { '\0' };
+		s3eConfigGetString("bmGameAnalytics", "ResourceCurrencies_part2", buffer1);
+		s3eConfigGetString("bmGameAnalytics", "ResourceCurrencies_part3", buffer2);
+
+		string currencies = string(buffer) + ',' + string(buffer1) + ',' + string(buffer2);
+
+		stringstream ss(currencies);
+		string item;
+		while (getline(ss, item, ','))
+		{
+			if (!item.empty())
+			{
+				if (s_resource_currencies.size() >= 20)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("Too many items for ResourceCurrencies"));
+					return S3E_RESULT_ERROR;
+				}
+
+				if (item.size() > 32)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("One of item of ResourceCurrencies is too long (max length 32 chars): %s", item.c_str()));
+					return S3E_RESULT_ERROR;
+				}
+
+				char* dimension = new char[item.size() + 1];
+				std::copy(item.begin(), item.end(), dimension);
+				dimension[item.size()] = '\0';
+				s_resource_currencies.push_back(dimension);
+			}
+		}
+	}
+
+	fill_n(buffer, 0xff, '\0');
+	if (s3eConfigGetString("bmGameAnalytics", "ResourceItemTypes", buffer) == S3E_RESULT_SUCCESS)
+	{
+		char buffer1[0xff] = { '\0' };
+		char buffer2[0xff] = { '\0' };
+		s3eConfigGetString("bmGameAnalytics", "ResourceItemTypes_part2", buffer1);
+		s3eConfigGetString("bmGameAnalytics", "ResourceItemTypes_part3", buffer2);
+
+		string types = string(buffer) + ',' + string(buffer1) + ',' + string(buffer2);
+
+		stringstream ss(types);
+		string item;
+		while (getline(ss, item, ','))
+		{
+			if (!item.empty())
+			{
+				if (s_resource_item_types.size() >= 20)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("Too many items for ResourceItemTypes"));
+					return S3E_RESULT_ERROR;
+				}
+
+				if (item.size() > 32)
+				{
+					clean();
+					S3E_EXT_ERROR(CONFIG, ("One of item of ResourceItemTypes is too long (max length 32 chars): %s", item.c_str()));
+					return S3E_RESULT_ERROR;
+				}
+
+				char* dimension = new char[item.size() + 1];
+				std::copy(item.begin(), item.end(), dimension);
+				dimension[item.size()] = '\0';
+				s_resource_item_types.push_back(dimension);
+			}
+		}
+	}
+
 	IwTrace(BMGAMEANALYTICS_VERBOSE, ("config loaded"));
+
+	for (const char* item : s_dimensions01) {
+		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
+	}
+
+	for (const char* item : s_dimensions02){
+		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
+	}
+
+	for (const char* item : s_dimensions03){
+		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
+	}
+
+	for (const char* item : s_resource_currencies){
+		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
+	}
+
+	for (const char* item : s_resource_item_types){
+		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
+	}
 
     //Add any generic initialisation code here
 	return bmGameAnalyticsInit_platform(s_game_key, 
@@ -93,7 +312,8 @@ s3eResult bmGameAnalyticsInit()
 
 void bmGameAnalyticsTerminate()
 {
-    //Add any generic termination code here
+	clean();
+
     bmGameAnalyticsTerminate_platform();
 }
 

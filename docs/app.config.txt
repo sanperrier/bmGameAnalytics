@@ -6,4 +6,15 @@ EngineVersion               <string>    Engine version. Default is Marmalade ver
 CustomDimensions01          <string>    Custom dimensions 01, comma-separated. Max 256 bytes. If you need more use CustomDimensions01_part2
 CustomDimensions01_part2    <string>    Custom dimensions 01 part2, if you need more use CustomDimensions01_part3
 CustomDimensions01_part3    <string>    Custom dimensions 01 part3
-
+CustomDimensions02          <string>    Custom dimensions 02, comma-separated. Max 256 bytes. If you need more use CustomDimensions02_part2
+CustomDimensions02_part2    <string>    Custom dimensions 02 part2, if you need more use CustomDimensions02_part3
+CustomDimensions02_part3    <string>    Custom dimensions 02 part3
+CustomDimensions03          <string>    Custom dimensions 03, comma-separated. Max 256 bytes. If you need more use CustomDimensions03_part2
+CustomDimensions03_part2    <string>    Custom dimensions 03 part2, if you need more use CustomDimensions03_part3
+CustomDimensions03_part3    <string>    Custom dimensions 03 part3
+ResourceCurrencies          <string>    Resource currencies, comma-separated. Max 256 bytes. If you need more use ResourceCurrencies_part2
+ResourceCurrencies_part2    <string>    Resource currencies part2, if you need more use ResourceCurrencies_part3
+ResourceCurrencies_part3    <string>    Resource currencies part3
+ResourceItemTypes           <string>    Resource item types, comma-separated. Max 256 bytes. If you need more use ResourceItemTypes_part2
+ResourceItemTypes_part2     <string>    Resource item types part2, if you need more use ResourceItemTypes_part3
+ResourceItemTypes_part3     <string>    Resource item types part3

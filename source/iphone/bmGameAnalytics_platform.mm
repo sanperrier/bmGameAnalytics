@@ -8,9 +8,17 @@
  */
 #include "bmGameAnalytics_internal.h"
 
-s3eResult bmGameAnalyticsInit_platform()
+s3eResult bmGameAnalyticsInit_platform(const char * game_key, 
+                                       const char * secret_key, 
+                                       const char * build_version, 
+                                       const char * engine_version,
+									   const char ** dimensions01, unsigned int dimensions01_size,
+									   const char ** dimensions02, unsigned int dimensions02_size,
+									   const char ** dimensions03, unsigned int dimensions03_size,
+									   const char ** resource_currencies, unsigned int resource_currencies_size,
+									   const char ** resource_item_types, unsigned int resource_item_types_size)
 {
-    // Add any platform-specific initialisation code here
+    //TODO: Тут настраиваем валюты, типы предметов, устанавливаем версии и инициализируем ключами, проверок никаких не надо, они в generic части
     return S3E_RESULT_SUCCESS;
 }
 
@@ -38,8 +46,9 @@ void bmGameAnalyticsAddDesignEvent_platform(const char * eventId)
 {
 }
 
-void bmGameAnalyticsAddDesignEventWithValue_platform(const char * eventId, int value)
+void bmGameAnalyticsAddDesignEventWithValue_platform(const char * eventId, float* value)
 {
+	//TODO: тут надо в конце удалить value, т.к. он выделялся из кучи
 }
 
 void bmGameAnalyticsAddErrorEvent_platform(bmGameAnalyticsErrorSeverity severity, const char * message)

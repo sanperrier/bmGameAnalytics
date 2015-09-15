@@ -19,6 +19,10 @@
 [bmGameAnalytics]
 GameKey="game_key"
 SecretKey="secret_key"
-CustomDimensions01="dim1,dim2,dim3"
-CustomDimensions01_part2="dim4,dim5,dim6"
-CustomDimensions01_part3="dim7,dim8,dim9,dim10"
+CustomDimensions01="dim11,dim12,dim13"
+CustomDimensions02="dim21,dim22,dim23"
+CustomDimensions03="dim31,dim32,dim33,dim34,dim35,dim36"
+CustomDimensions03_part2="dim37,dim38,dim39,dim310,dim311,dim312,dim313,dim314,dim315,dim316,dim317,dim318,dim319,dim320"
+ResourceCurrencies="currency1,currency2,currency3"
+ResourceCurrencies_part2="currency4,currency5,currency6"
+ResourceItemTypes="type1,type2,type3"
