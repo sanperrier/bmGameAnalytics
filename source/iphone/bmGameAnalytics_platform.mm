@@ -151,7 +151,7 @@ void bmGameAnalyticsAddResourceEvent_platform(bmGameAnalyticsResourceFlowType fl
     NSString* curr = [NSString stringWithUTF8String:currency];
     NSString* type = [NSString stringWithUTF8String:itemType];
     NSString* item = [NSString stringWithUTF8String:itemId];
-    [GameAnalytics addResourceEventWithFlowType:GAResourceFlowTypeSource
+    [GameAnalytics addResourceEventWithFlowType:(GAResourceFlowType)flowType
                                        currency:curr
                                          amount:[NSNumber numberWithInteger:amount]
                                        itemType:type
@@ -161,8 +161,13 @@ void bmGameAnalyticsAddResourceEvent_platform(bmGameAnalyticsResourceFlowType fl
 void bmGameAnalyticsAddProgressionEventWithScore_platform(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03, int score)
 {
     NSString* progress01 = [NSString stringWithUTF8String:progression01];
-    NSString* progress02 = [NSString stringWithUTF8String:progression02];
-    NSString* progress03 = [NSString stringWithUTF8String:progression03];
+    
+    NSString* progress02 = nil;
+    if (progression02) progress02 = [NSString stringWithUTF8String:progression02];
+    
+    NSString* progress03 = nil;
+    if (progression03) progress03 = [NSString stringWithUTF8String:progression03];
+
     [GameAnalytics addProgressionEventWithProgressionStatus:(GAProgressionStatus)progressionStatus
                                               progression01:progress01
                                               progression02:progress02
@@ -173,8 +178,13 @@ void bmGameAnalyticsAddProgressionEventWithScore_platform(bmGameAnalyticsProgres
 void bmGameAnalyticsAddProgressionEvent_platform(bmGameAnalyticsProgressionStatus progressionStatus, const char * progression01, const char * progression02, const char * progression03)
 {
     NSString* progress01 = [NSString stringWithUTF8String:progression01];
-    NSString* progress02 = [NSString stringWithUTF8String:progression02];
-    NSString* progress03 = [NSString stringWithUTF8String:progression03];
+    
+    NSString* progress02 = nil;
+    if (progression02) progress02 = [NSString stringWithUTF8String:progression02];
+    
+    NSString* progress03 = nil;
+    if (progression03) progress03 = [NSString stringWithUTF8String:progression03];
+    
     [GameAnalytics addProgressionEventWithProgressionStatus:(GAProgressionStatus)progressionStatus
                                               progression01:progress01
                                               progression02:progress02

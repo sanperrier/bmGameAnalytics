@@ -11,4 +11,7 @@ options
 }
 define S3E_BUILD_EXT
 
-subproject bmGameAnalytics_build
+subproject {
+	bmGameAnalytics_build
+}
+

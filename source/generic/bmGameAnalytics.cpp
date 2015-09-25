@@ -237,7 +237,25 @@ s3eResult bmGameAnalyticsInit()
 			}
 		}
 	}
-
+    
+    
+#ifdef IW_DEBUG
+    {
+        std::stringstream ss;
+        ss << "ResourceCurrencies parsed, " << s_resource_currencies.size() << " items:{";
+        for(size_t i = 0; i < s_resource_currencies.size(); ++i)
+        {
+            ss << s_resource_currencies[i];
+            if(i != s_resource_currencies.size() - 1)
+            {
+                ss << ", ";
+            }
+        }
+        ss << "}";
+        IwTrace(BMGAMEANALYTICS_VERBOSE, (ss.str().c_str()));
+    }
+#endif
+    
 	fill_n(buffer, 0xff, '\0');
 	if (s3eConfigGetString("bmGameAnalytics", "ResourceItemTypes", buffer) == S3E_RESULT_SUCCESS)
 	{
@@ -277,26 +295,6 @@ s3eResult bmGameAnalyticsInit()
 	}
 
 	IwTrace(BMGAMEANALYTICS_VERBOSE, ("config loaded"));
-
-	for (const char* item : s_dimensions01) {
-		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
-	}
-
-	for (const char* item : s_dimensions02){
-		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
-	}
-
-	for (const char* item : s_dimensions03){
-		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
-	}
-
-	for (const char* item : s_resource_currencies){
-		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
-	}
-
-	for (const char* item : s_resource_item_types){
-		IwTrace(BMGAMEANALYTICS_VERBOSE, ("%s", item));
-	}
 
     //Add any generic initialisation code here
 	return bmGameAnalyticsInit_platform(s_game_key, 

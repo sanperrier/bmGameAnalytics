@@ -47,7 +47,7 @@ deployments
 #lines will cause the extension builder to re-output this section.
 deployments
 {
-    #iphone-link-opts="-framework X" #Use this to bring in any additional link options needed
+    iphone-link-opts="-lsqlite3"
     iphone-link-lib="bmGameAnalytics"
     iphone-link-lib="GameAnalytics"
     iphone-link-libdir="lib/iphone"
